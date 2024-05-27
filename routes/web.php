@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\EventosController;
 use App\Http\Controllers\CalculatorIMCController;
+use App\Http\Controllers\CreateEventsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,7 +21,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-
+Route::resource('create_event', CreateEventsController::class);
 
 
 
