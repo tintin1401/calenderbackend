@@ -23,7 +23,7 @@ Route::get('/', function () {
 Route::resource('events', EventsController::class);
 
 
-
+Route::resource('create_event', CreateEventsController::class);
 
 
 
