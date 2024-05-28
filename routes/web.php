@@ -2,8 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\EventosController;
-use App\Http\Controllers\CalculatorIMCController;
+use App\Http\Controllers\EventsController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -19,6 +19,9 @@ use App\Http\Controllers\CalculatorIMCController;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::resource('events', EventsController::class);
+
 
 
 
