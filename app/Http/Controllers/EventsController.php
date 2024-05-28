@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Label;
-
+use App\Models\Category;
+use App\Models\Course;
+use App\Models\Activity;
 class EventsController extends Controller
 {
     /**
@@ -22,8 +24,11 @@ class EventsController extends Controller
      */
     public function create()
     {
-        $categories=Label::all();
-        return view('events.create',compact('categories'));
+        $categories=Category::all();
+        $labels=Label::all();
+        $courses=Course::all();
+
+        return view('events.create',compact('categories','labels','courses'));
     }
 
     /**
@@ -31,7 +36,30 @@ class EventsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        echo $request -> name;
+        echo $request -> course;
+        echo $request -> category;
+        echo $request -> schedule;
+        echo $request -> time;
+        echo $request -> label;
+        echo $request -> description;
+
+        Activity::create([
+            'name' => $request->name,
+            'description' => $request->description,
+            'image'=> $request->name,
+            'date' => $request->schedule,
+            'hour' => $request->time,
+            'labels_id' => $request->label,
+            'categories_id' => $request->category,
+            'status_activities_id' => $request->course
+         ]
+        );
+
+
+
+
+        return view('events.index');;
     }
 
     /**
