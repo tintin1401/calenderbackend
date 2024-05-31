@@ -47,11 +47,11 @@
             </div>
             <div class='mb-4'>
                 <label for="schedule" class="block mb-2 text-sm font-medium text-gray-900">Fecha</label>
-                <input type="date" id="schedule" name="schedule" class="border-2 border-blue-700 rounded-md w-full p-2" value="{{ $event->schedule }}"/>
+                <input type="date" id="schedule" name="schedule" class="border-2 border-blue-700 rounded-md w-full p-2" value="{{ $event->date }}"/>
             </div>
             <div>
                 <label for="time" class="block mb-2 text-sm font-medium text-gray-900">Hora</label>
-                <input type="time" id="time" name="time" class="border-2 border-blue-700 rounded-md w-full p-2" value="{{ $event->time }}"/>
+                <input type="time" id="time" name="time" class="border-2 border-blue-700 rounded-md w-full p-2" value="{{ $event->hour }}"/>
             </div>
             <div class='mb-4'>
                 <label for="label" class="block mb-2 text-sm font-medium text-gray-900">Actividad</label>

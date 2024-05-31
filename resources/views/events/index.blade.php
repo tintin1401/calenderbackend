@@ -1,22 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     @vite('resources/css/app.css')
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+        $(document).ready(function(){
+            setTimeout(function(){
+                $('.success-message').fadeOut();
+            }, 5000);
+        });
+    </script>
 </head>
-<body>
-<div>
-        <div class="text-center">
-            <div>
-                <h2 class="mb-2 mt-2 text-4xl font-medium leading-tight text-white">Add New IMC Result</h2>
-            </div>
-            <div>
-                <a class=" inline-block text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-4 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 mx-auto" href="{{ route('events.index') }}"> Back</a>
-            </div>
-        </div>
-    </div>
+<body class="max-w-[900px] mx-auto px-4 bg-[#EFF6FE]">
     
     @if ($errors->any())
         <div class="text-white">
@@ -29,41 +29,64 @@
         </div>
     @endif
     
-    <form class="max-w-[360px] mx-auto" action="{{ route('events.store') }}" method="POST">
-        @csrf
-    
-        <div>
-            <div class="mt-2 mb-2">
-                <div>
-                    <label for="categories" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Category:</label>
-                    <select name="categories"  id="categories" class="border-2 border-blue-700 rounded-md lg:w-[20rem] w-full p-2 text-blue-900">
-                    <option value="">Select Category</option>
-                    
-                        
-
-                    </select>
-               
-                </div>
-
-            </div>
-            
-            <div class="mt-2 mb-2">
-                <div>
-                    <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Weight:</label>
-                    <input type="number" class="border-2 border-blue-700 rounded-md w-full p-2" name="weight" placeholder="1.0" min="1" max="400">
-                </div>
-            </div>
-            <div class="mt-2 mb-2">
-                <div>
-                    <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Height:</label>
-                    <input type="text" class="border-2 border-blue-700 rounded-md w-full p-2" name="height" placeholder="1.0" step="0.01" min="0" max="2.5">
-                </div>
-            </div>
-            <div>
-                <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
-            </div>
+    <div class="mt-8">
+        <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-8 space-y-4 lg:space-y-0">
+            <h1 class="font-bold text-blue-700 lg:text-3xl text-2xl">Actividades Registradas</h1>
+            <a class="self-start lg:text-lg text-base text-center font-bold text-blue-700 hover:text-white border-2 rounded-lg border-blue-700 hover:bg-blue-700 px-4 py-1" href="{{ route('events.create') }}">Crear Actividad</a>
         </div>
-    </form>
+
+        @if ($message = Session::get('success'))
+        <div class="pb-2 text-base success-message">
+            <p>{{ $message }}</p>
+        </div>
+        @endif
+
+        <div class="overflow-x-auto stroke-orange-700">
+        <table class="w-full text-center table-auto border-separate border-spacing-y-4 bg-[#EFF6FE]">
+            <thead class="bg-blue-700 text-white">
+                <tr>
+                    <th scope="col" class="px-4 py-2">Nombre</th>
+                    <th scope="col" class="px-4 py-2">Etiqueta</th>
+                    <th scope="col" class="px-4 py-2">Categoria</th>
+                    <th scope="col" class="lg:px-4 px-6 py-2">Fecha</th>
+                    <th scope="col" class="px-4 py-2">Hora</th>
+                    <th scope="col" class="px-4 py-2">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($events as $event)
+                <tr class="bg-white border-b hover:shadow-md">
+                    <td> {{ $event->name }} </td>
+                    <td> {{ $event->labels->name }} </td>
+                    <td> {{ $event->categories->name }} </td>
+                    <td> {{ $event->date }} </td>
+                    <td> {{ $event->hour }} </td>
+                    <td>
+                        <form class="p-4 flex items-center justify-center" action="{{ route('events.destroy',$event->id) }}" method="POST">    
+                            @csrf
+                            @method('DELETE')
+
+                            <a href="{{ route('events.edit', $event->id) }}" class="mr-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 hover:text-orange-600">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+                                </svg>
+                            </a>
+
+                            <button type="submit">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 hover:text-orange-600">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+                                </svg>
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                
+                @endforeach
+            </tbody>
+        </table>
+        </div>
+    </div>
     
+
 </body>
 </html>

@@ -19,4 +19,14 @@ class Activity extends Model
         'categories_id',
         'status_activities_id'
     ];
+
+    public function labels()
+    {
+        return $this->belongsTo(Label::class, 'labels_id');
+    }
+
+    public function categories()
+    {
+        return $this->belongsTo(Category::class, 'categories_id');
+    }
 }

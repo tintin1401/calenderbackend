@@ -15,8 +15,8 @@ class EventsController extends Controller
      */
     public function index()
     {
-        return view('events.index');
-
+        $events = Activity::with(['labels', 'categories'])->get();
+        return view('events.index', compact('events'));
     }
 
     /**
@@ -108,8 +108,11 @@ class EventsController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id)
     {
         //
+        $event = Activity::find($id);
+        $event->delete();
+        return redirect()->route('events.index')->with('success', 'Activity deleted successfully');
     }
 }
