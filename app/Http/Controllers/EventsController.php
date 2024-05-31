@@ -76,14 +76,33 @@ class EventsController extends Controller
     public function edit(string $id)
     {
         //
+        $event = Activity::find($id);
+        $categories=Category::all();
+        $labels=Label::all();
+
+        return view('events.edit',compact('event','categories','labels'));
     }
+    
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update($id, Request $request)
     {
         //
+        $query = Activity::findOrFail($id);
+        if ($query) {
+            $query->update([
+                'name' => $request->name,
+                'categories_id' => $request->category,
+                'date' => $request->schedule,
+                'hour' => $request->time,
+                'labels_id' => $request->label,
+                'description' => $request->description
+            ]);
+
+        return redirect()->route('events.index')->with('success', 'Activity updated successfully');
+        } 
     }
 
     /**
