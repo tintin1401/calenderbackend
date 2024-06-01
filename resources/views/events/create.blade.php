@@ -22,14 +22,14 @@
     </div>
     @endif
 
-    <form class="max-w-[360px] mx-auto" action="{{ route('events.store') }}" method="POST">
+    <form class="max-w-[360px] mx-auto" action="{{ route('events.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
         <!-- Example of a form that Dropzone can take over -->
 
         <h1 class='font-bold text-blue-700 text-3xl mb-4 pt-4'>Agregar actividad</h1>
         <div class="w-full">
-            <label for="input-file" class="flex flex-col items-center text-center justify-center w-full border-2 border-blue-700 border-dashed rounded-lg cursor-pointer bg-white" id="drop-area">
-                <input type="file" accept="image/*" id="input-file" hidden name="img">
+            <label for="file" class="flex flex-col items-center text-center justify-center w-full border-2 border-blue-700 border-dashed rounded-lg cursor-pointer bg-white" id="drop-area">
+                <input  type="file" name="file" id="file" accept="image/*" hidden required>
                 <div id="img-view" class="bg-cover bg-center bg-no-repeat w-full h-[20vh]">
                     <svg class="w-8 h-8 mx-auto mt-6 text-gray-800 justify-center" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M15 17h3a3 3 0 0 0 0-6h-.025a5.56 5.56 0 0 0 .025-.5A5.5 5.5 0 0 0 7.207 9.021C7.137 9.017 7.071 9 7 9a4 4 0 1 0 0 8h2.167M12 19v-9m0 0-2 2m2-2 2 2" />

@@ -36,18 +36,21 @@ class EventsController extends Controller
      */
     public function store(Request $request)
     {
-        echo $request -> name;
-        echo $request -> course;
-        echo $request -> category;
-        echo $request -> schedule;
-        echo $request -> time;
-        echo $request -> label;
-        echo $request -> description;
+       
+        if($request->hasFile('file')){
+            $image=$request->file('file');
+            $filename=$request->name.$image->getClientOriginalName();
+            $image->move(public_path('imgs'),$filename);
+
+        }else{
+            $filename='default.png';
+        }
+
 
         Activity::create([
             'name' => $request->name,
             'description' => $request->description,
-            'image'=> $request->name,
+            'image'=> $filename,
             'date' => $request->schedule,
             'hour' => $request->time,
             'labels_id' => $request->label,
@@ -59,7 +62,7 @@ class EventsController extends Controller
 
 
 
-        return view('events.index');;
+        return view('events.layout');;
     }
 
     /**

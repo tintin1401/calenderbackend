@@ -1,5 +1,5 @@
         let dropArea = document.getElementById('drop-area');
-        let inputFile = document.getElementById('input-file');
+        let inputFile = document.getElementById('file');
         let imageView = document.getElementById('img-view');
         inputFile.addEventListener('change',uploadImage);
         function uploadImage(){
