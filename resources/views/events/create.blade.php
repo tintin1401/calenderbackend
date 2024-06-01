@@ -9,7 +9,7 @@
 </head>
 
 <body>
-    
+
 
     @if ($errors->any())
     <div class="text-white">
@@ -24,10 +24,20 @@
 
     <form class="max-w-[360px] mx-auto" action="{{ route('events.store') }}" method="POST">
         @csrf
+        <!-- Example of a form that Dropzone can take over -->
 
         <h1 class='font-bold text-blue-700 text-3xl mb-4 pt-4'>Agregar actividad</h1>
-        <div class="flex items-center gap-4 mb-8">
-            <img class='block rounded-md w-[40rem] h-[8rem] object-cover' src="{{ asset('imgs/course02.jpg') }}" alt="User Profile" />
+        <div class="w-full">
+            <label for="input-file" class="flex flex-col items-center text-center justify-center w-full border-2 border-blue-700 border-dashed rounded-lg cursor-pointer bg-white" id="drop-area">
+                <input type="file" accept="image/*" id="input-file" hidden name="img">
+                <div id="img-view" class="bg-cover bg-center bg-no-repeat w-full h-[20vh]">
+                    <svg class="w-8 h-8 mx-auto mt-6 text-gray-800 justify-center" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M15 17h3a3 3 0 0 0 0-6h-.025a5.56 5.56 0 0 0 .025-.5A5.5 5.5 0 0 0 7.207 9.021C7.137 9.017 7.071 9 7 9a4 4 0 1 0 0 8h2.167M12 19v-9m0 0-2 2m2-2 2 2" />
+                    </svg>
+                    <p id="p-file" class="admin-text">Drag and drop or click here to upload image</p>
+                    <span>Upload any images from desktop</span>
+                </div>
+            </label>
         </div>
         <div class="grid md:grid-cols-[auto_auto] gap-2">
             <div class='mb-4'>
@@ -37,7 +47,7 @@
             <div>
                 <label for="course" class="block mb-2 text-sm font-medium text-gray-900">Curso</label>
                 <select id="course" name="course" class="border-2 border-blue-700 rounded-md w-full p-2">
-                <option value="">Select Courses</option>
+                    <option value="">Select Courses</option>
                     @foreach ($courses as $course)
                     <option value="{{ $course->id }}">{{ $course->name }}</option>
                     @endforeach
@@ -63,37 +73,21 @@
             <div class='mb-4'>
                 <label for="label" class="block mb-2 text-sm font-medium text-gray-900">Actividad</label>
                 <select id="label" name="label" class="border-2 border-blue-700 rounded-md w-full p-2">
-                <option value="">Select Activity</option>
-                @foreach ($labels as $label)
+                    <option value="">Select Activity</option>
+                    @foreach ($labels as $label)
                     <option value="{{ $label->id }}">{{ $label->name }}</option>
                     @endforeach
                 </select>
             </div>
-            <div>
-                <label htmlFor= "description" class="block mb-2 text-sm font-medium text-gray-900">Descripción</label>
-                <textarea type="text" rows="4" id="description" name="description" class="border-2 border-blue-700 rounded-md w-full p-2" placeholder="Descripción de la actividad"></textarea>
-            </div>
-
-            <div class="flex items-center justify-center w-full">
-                <label for="dropzone-file" class="flex flex-col items-center justify-center w-full border-2 border-blue-700 border-dashed rounded-lg cursor-pointer bg-white  ">
-                    <div class="flex flex-col items-center justify-center">
-                        <svg class="w-8 h-8 mb-2 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
-                        </svg>
-                        <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to upload</span> or drag and drop</p>
-                        <p class="text-xs text-gray-500 dark:text-gray-400">SVG, PNG or JPG</p>
-                    </div>
-                    <input id="dropzone-file" type="file" class="hidden" />
-                </label>
-            </div>
-
         </div>
-        <div class="grid gap-6 lg:grid-cols-2 grid-cols-1 lg:w-[20rem] w-full pb-8 mt-8">
+        <label htmlFor="description" class="block text-sm font-medium text-gray-900">Descripción</label>
+        <textarea type="text" rows="4" id="description" name="description" class="border-2 border-blue-700 rounded-md w-full p-2" placeholder="Descripción de la actividad"></textarea>
+        <div class="grid gap-6 lg:grid-cols-2 w-full pb-8 mt-4">
             <button type="submit" class="text-black border-2 border-orange-700 p-2 rounded-lg">Reset</button>
             <button type="submit" class="text-white bg-orange-700 p-2 rounded-lg">Save</button>
         </div>
     </form>
-
+    @vite('resources/js/admin.js')
 </body>
 
 </html>
