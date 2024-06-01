@@ -15,9 +15,8 @@ class LabelSeeder extends Seeder
     public function run(): void
     {
         //
-        Label::create(['name'=>'Event']);
-        Label::create(['name'=>'Task']);
-        Label::create(['name'=>'Release']);
-
+        Label::create(['name'=>'Evento']);
+        Label::create(['name'=>'Tarea']);
+        Label::create(['name'=>'Comunicado']);
     }
 }
