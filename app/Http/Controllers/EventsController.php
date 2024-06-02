@@ -55,7 +55,7 @@ class EventsController extends Controller
             'hour' => $request->time,
             'labels_id' => $request->label,
             'categories_id' => $request->category,
-            'status_activities_id' => $request->course
+            'courses_id' => $request->course
          ]
         );
 
