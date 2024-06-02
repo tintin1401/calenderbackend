@@ -26,9 +26,9 @@
         @csrf
         <!-- Example of a form that Dropzone can take over -->
 
-        <h1 class='font-bold text-blue-700 text-3xl mb-4 pt-4'>Agregar actividad</h1>
+        <h1 class='font-bold text-blue-700 text-3xl mb-4 pt-4'>Create Activity</h1>
         <div class="w-full">
-            <label for="file" class="flex flex-col items-center text-center justify-center w-full border-2 border-blue-700 border-dashed rounded-lg cursor-pointer bg-white" id="drop-area">
+            <label for="file" class="mb-4 flex flex-col items-center text-center justify-center w-full border-2 border-blue-700 border-dashed rounded-lg cursor-pointer bg-white" id="drop-area">
                 <input  type="file" name="file" id="file" accept="image/*" hidden required>
                 <div id="img-view" class="bg-cover bg-center bg-no-repeat w-full h-[20vh]">
                     <svg class="w-8 h-8 mx-auto mt-6 text-gray-800 justify-center" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
@@ -41,11 +41,11 @@
         </div>
         <div class="grid md:grid-cols-[auto_auto] gap-2">
             <div class='mb-4'>
-                <label for="name" class="block mb-2 text-sm font-medium text-gray-900">Nombre</label>
-                <input type="text" id="name" name="name" class="border-2 border-blue-700 rounded-md w-full p-2" placeholder="Nombre de la actividad" />
+                <label for="name" class="block mb-2 text-sm font-medium text-gray-900">Name</label>
+                <input type="text" id="name" name="name" class="border-2 border-blue-700 rounded-md w-full p-2" placeholder="Activity Name" />
             </div>
             <div>
-                <label for="course" class="block mb-2 text-sm font-medium text-gray-900">Curso</label>
+                <label for="course" class="block mb-2 text-sm font-medium text-gray-900">Course</label>
                 <select id="course" name="course" class="border-2 border-blue-700 rounded-md w-full p-2">
                     <option value="">Select Courses</option>
                     @foreach ($courses as $course)
@@ -54,7 +54,7 @@
                 </select>
             </div>
             <div>
-                <label for="category" class="block mb-2 text-sm font-medium text-gray-900">Categoría</label>
+                <label for="category" class="block mb-2 text-sm font-medium text-gray-900">Category</label>
                 <select name="category" id="category" class="border-2 border-blue-700 rounded-md w-full p-2">
                     <option value="">Select Category</option>
                     @foreach ($categories as $category)
@@ -63,15 +63,15 @@
                 </select>
             </div>
             <div class='mb-4'>
-                <label for="schedule" class="block mb-2 text-sm font-medium text-gray-900">Fecha</label>
+                <label for="schedule" class="block mb-2 text-sm font-medium text-gray-900">Date</label>
                 <input type="date" id="schedule" name="schedule" class="border-2 border-blue-700 rounded-md w-full p-2" />
             </div>
             <div>
-                <label for="time" class="block mb-2 text-sm font-medium text-gray-900">Hora</label>
+                <label for="time" class="block mb-2 text-sm font-medium text-gray-900">Time</label>
                 <input type="time" id="time" name="time" class="border-2 border-blue-700 rounded-md w-full p-2" />
             </div>
             <div class='mb-4'>
-                <label for="label" class="block mb-2 text-sm font-medium text-gray-900">Actividad</label>
+                <label for="label" class="block mb-2 text-sm font-medium text-gray-900">Activity</label>
                 <select id="label" name="label" class="border-2 border-blue-700 rounded-md w-full p-2">
                     <option value="">Select Activity</option>
                     @foreach ($labels as $label)
@@ -80,10 +80,10 @@
                 </select>
             </div>
         </div>
-        <label htmlFor="description" class="block text-sm font-medium text-gray-900">Descripción</label>
-        <textarea type="text" rows="4" id="description" name="description" class="border-2 border-blue-700 rounded-md w-full p-2" placeholder="Descripción de la actividad"></textarea>
+        <label htmlFor="description" class="block text-sm font-medium text-gray-900">Description</label>
+        <textarea type="text" rows="4" id="description" name="description" class="border-2 border-blue-700 rounded-md w-full p-2" placeholder="Activity Description"></textarea>
         <div class="grid gap-6 lg:grid-cols-2 w-full pb-8 mt-4">
-            <button type="submit" class="text-black border-2 border-orange-700 p-2 rounded-lg">Reset</button>
+            <button type="reset" class="text-black border-2 border-orange-700 p-2 rounded-lg">Reset</button>
             <button type="submit" class="text-white bg-orange-700 p-2 rounded-lg">Save</button>
         </div>
     </form>

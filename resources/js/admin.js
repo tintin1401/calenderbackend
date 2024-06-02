@@ -1,3 +1,8 @@
+window.addEventListener('DOMContentLoaded', function() {
+    const imageURL = document.getElementById('img-view').getAttribute('data-image-url');
+    document.getElementById('img-view').style.backgroundImage = 'url("' + imageURL + '")';
+});
+
         let dropArea = document.getElementById('drop-area');
         let inputFile = document.getElementById('file');
         let imageView = document.getElementById('img-view');

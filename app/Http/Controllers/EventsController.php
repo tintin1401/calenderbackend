@@ -15,7 +15,7 @@ class EventsController extends Controller
      */
     public function index()
     {
-        $events = Activity::with(['labels', 'categories'])->get();
+        $events = Activity::with(['labels', 'categories', 'courses'])->get();
         return view('events.index', compact('events'));
     }
 
@@ -62,7 +62,7 @@ class EventsController extends Controller
 
 
 
-        return view('events.layout');;
+        return redirect()->route('events.index')->with('success', 'Activity created successfully');
     }
 
     /**
@@ -82,8 +82,9 @@ class EventsController extends Controller
         $event = Activity::find($id);
         $categories=Category::all();
         $labels=Label::all();
+        $courses=Course::all();
 
-        return view('events.edit',compact('event','categories','labels'));
+        return view('events.edit',compact('event','categories','labels', 'courses'));
     }
     
 
@@ -95,8 +96,23 @@ class EventsController extends Controller
         //
         $query = Activity::findOrFail($id);
         if ($query) {
+            if ($request->hasFile('file')) {
+                $previousImage = public_path('imgs/' . $query->image);
+                if ($query->image !== 'default.png' && file_exists($previousImage)) {
+                    unlink($previousImage);
+                }
+                
+                $image = $request->file('file');
+                $filename = $request->name . $image->getClientOriginalName();
+                $image->move(public_path('imgs'), $filename);
+                $query->update([
+                    'image' => $filename
+                ]);
+            }
+
             $query->update([
                 'name' => $request->name,
+                'courses_id' => $request->course,
                 'categories_id' => $request->category,
                 'date' => $request->schedule,
                 'hour' => $request->time,
@@ -104,8 +120,10 @@ class EventsController extends Controller
                 'description' => $request->description
             ]);
 
-        return redirect()->route('events.index')->with('success', 'Activity updated successfully');
-        } 
+            return redirect()->route('events.index')->with('success', 'Activity updated successfully');
+        } else {
+            return redirect()->route('events.index')->with('error', 'Activity not found');
+        }
     }
 
     /**

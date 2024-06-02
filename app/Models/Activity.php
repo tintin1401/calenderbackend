@@ -29,4 +29,9 @@ class Activity extends Model
     {
         return $this->belongsTo(Category::class, 'categories_id');
     }
+
+    public function courses()
+    {
+        return $this->belongsTo(Course::class, 'courses_id');
+    }
 }

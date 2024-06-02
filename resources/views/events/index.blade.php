@@ -31,8 +31,8 @@
     
     <div class="mt-8">
         <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-8 space-y-4 lg:space-y-0">
-            <h1 class="font-bold text-blue-700 lg:text-3xl text-2xl">Actividades Registradas</h1>
-            <a class="self-start lg:text-lg text-base text-center font-bold text-blue-700 hover:text-white border-2 rounded-lg border-blue-700 hover:bg-blue-700 px-4 py-1" href="{{ route('events.create') }}">Crear Actividad</a>
+            <h1 class="font-bold text-blue-700 lg:text-3xl text-2xl">Registered Activities</h1>
+            <a class="self-start lg:text-lg text-base text-center font-bold text-blue-700 hover:text-white border-2 rounded-lg border-blue-700 hover:bg-blue-700 px-4 py-1" href="{{ route('events.create') }}">New Activity</a>
         </div>
 
         @if ($message = Session::get('success'))
@@ -45,22 +45,24 @@
         <table class="w-full text-center table-auto border-separate border-spacing-y-4 bg-[#EFF6FE]">
             <thead class="bg-blue-700 text-white">
                 <tr>
-                    <th scope="col" class="px-4 py-2">Nombre</th>
-                    <th scope="col" class="px-4 py-2">Etiqueta</th>
-                    <th scope="col" class="px-4 py-2">Categoria</th>
-                    <th scope="col" class="lg:px-4 px-6 py-2">Fecha</th>
-                    <th scope="col" class="px-4 py-2">Hora</th>
-                    <th scope="col" class="px-4 py-2">Acciones</th>
+                    <th scope="col" class="px-4 py-2">Name</th>
+                    <th scope="col" class="px-4 py-2">Course</th>
+                    <th scope="col" class="px-4 py-2">Activity</th>
+                    <th scope="col" class="px-4 py-2">Category</th>
+                    <th scope="col" class="lg:px-4 px-6 py-2">Date</th>
+                    <th scope="col" class="px-4 py-2">Time</th>
+                    <th scope="col" class="px-4 py-2">Action</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($events as $event)
                 <tr class="bg-white border-b hover:shadow-md">
-                    <td> {{ $event->name }} </td>
-                    <td> {{ $event->labels->name }} </td>
-                    <td> {{ $event->categories->name }} </td>
-                    <td> {{ $event->date }} </td>
-                    <td> {{ $event->hour }} </td>
+                    <td class="p-4"> {{ $event->name }} </td>
+                    <td class="inline-block max-w-[15ch] py-4"> {{ $event->courses->name }} </td>
+                    <td class="p-4"> {{ $event->labels->name }} </td>
+                    <td class="p-4"> {{ $event->categories->name }} </td>
+                    <td class="p-4"> {{ $event->date }} </td>
+                    <td class="p-4"> {{ $event->hour }} </td>
                     <td>
                         <form class="p-4 flex items-center justify-center" action="{{ route('events.destroy',$event->id) }}" method="POST">    
                             @csrf
