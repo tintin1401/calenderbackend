@@ -15,9 +15,9 @@ class CategorySeeder extends Seeder
     public function run(): void
     {
         //
-        Category::create(['name'=>'Carrera']);
-        Category::create(['name'=>'Curso']);
-        Category::create(['name'=>'Universidad']);
-        Category::create(['name'=>'Estudiantes']);
+        Category::create(['name'=>'Career']);
+        Category::create(['name'=>'Course']);
+        Category::create(['name'=>'University']);
+        Category::create(['name'=>'Students']);
     }
 }

@@ -15,7 +15,8 @@ class User_typeSeeder extends Seeder
     public function run(): void
     {
         //
-        User_type::create(['name'=>'Student']);
-        User_type::create(['name'=>'Teacher']);
+        User_Type::create(['name'=>'Administrative']);
+        User_Type::create(['name'=>'Teacher']);
+        User_Type::create(['name'=>'Student']);
     }
 }

@@ -15,8 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('gender');
             $table->string('physical_activity');
-            $table->integer('sleep_hours');
-            $table->string('disease');
+            $table->string('sleep_hours');
+            $table->string('diseases');
+            $table->foreignId('users_id')->constrained();
             $table->timestamps();
         });
     }

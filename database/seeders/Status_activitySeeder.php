@@ -15,7 +15,7 @@ class Status_activitySeeder extends Seeder
     public function run(): void
     {
         //
-        Status_activity::create(['status'=>'Pendiente']);
-        Status_activity::create(['status'=>'Completado']);
+        Status_activity::create(['status'=>'Pending']);
+        Status_activity::create(['status'=>'Completed']);
     }
 }
