@@ -18,8 +18,8 @@ return new class extends Migration
             $table->string('image');
             $table->date('date');
             $table->time('hour');
-            $table->foreignId('status_activities_id')->constrained();
             $table->foreignId('labels_id')->constrained();
+            $table->foreignId('courses_id')->constrained();
             $table->foreignId('categories_id')->constrained();
             $table->timestamps();
         });
