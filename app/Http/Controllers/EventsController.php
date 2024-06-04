@@ -39,7 +39,7 @@ class EventsController extends Controller
        
         if($request->hasFile('file')){
             $image=$request->file('file');
-            $filename=$request->name.$image->getClientOriginalName();
+            $filename=$request->name.time().$image->getClientOriginalName();
             $image->move(public_path('imgs'),$filename);
 
         }else{
@@ -103,7 +103,7 @@ class EventsController extends Controller
                 }
                 
                 $image = $request->file('file');
-                $filename = $request->name . $image->getClientOriginalName();
+                $filename = $request->name .time(). $image->getClientOriginalName();
                 $image->move(public_path('imgs'), $filename);
                 $query->update([
                     'image' => $filename
