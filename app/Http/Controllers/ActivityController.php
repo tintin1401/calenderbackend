@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Activity;
+use Illuminate\Support\Carbon;
 
 class ActivityController extends Controller
 {
@@ -14,6 +15,7 @@ class ActivityController extends Controller
     {
         //
         $activities= Activity::select(
+            'activities.id',
             'activities.name',
             'activities.description',
             'activities.image',
@@ -27,6 +29,17 @@ class ActivityController extends Controller
         ->join('courses', 'activities.courses_id', '=', 'courses.id')
         ->join('categories', 'activities.categories_id', '=', 'categories.id')
         ->get();
+        
+        foreach ($activities as $activity) {
+            $activity->image = "http://localhost/calendar/calenderbackend/public/imgs/".$activity->image;
+        }
+
+        $activities->transform(function($activity) {
+            $activity->date = Carbon::parse($activity->date)->format('F j, Y');
+            $activity->hour = Carbon::parse($activity->hour)->format('h:i A'); 
+            return $activity;
+        });
+
         return $activities;
     }
 
