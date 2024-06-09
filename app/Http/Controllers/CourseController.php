@@ -70,4 +70,14 @@ class CourseController extends Controller
     {
         //
     }
+
+
+    public function name (){
+        $courses = Course::select(
+            'courses.id',
+            'courses.name',
+        )->get();
+        return $courses;
+    }
+
 }

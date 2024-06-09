@@ -36,3 +36,7 @@ Route::get('/status_activities/all', [Status_activityController::class, 'index']
 Route::get('/user_types/all', [User_typeController::class, 'index']);
 Route::get('/users/all', [UserController::class, 'index']);
 Route::get('/activities/all', [ActivityController::class, 'index']);
+
+Route::get('/activities/day', [ActivityController::class, 'day']);
+Route::get('/activities/findcourses/{id}', [ActivityController::class, 'findCourses']);
+Route::get('/courses/name', [CourseController::class, 'name']);

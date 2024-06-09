@@ -14,6 +14,7 @@ class ActivityController extends Controller
     {
         //
         $activities= Activity::select(
+            'activities.id',
             'activities.name',
             'activities.description',
             'activities.image',
@@ -52,6 +53,7 @@ class ActivityController extends Controller
     public function show(string $id)
     {
         //
+
     }
 
     /**
@@ -77,4 +79,35 @@ class ActivityController extends Controller
     {
         //
     }
+
+
+    public function day(){
+        $activities= Activity::select(
+            'activities.date',
+        )
+        ->get();
+        return $activities;
+    }
+
+    public function findCourses ($id){
+        $activities= Activity::select(
+            'activities.id',
+            'activities.name',
+            'activities.description',
+            'activities.image',
+            'activities.date',
+            'activities.hour',
+            'labels.name as labels_name',
+            'courses.name as courses_name',
+            'categories.name as categories_name',
+        )
+        ->join('labels', 'activities.labels_id', '=', 'labels.id')
+        ->join('courses', 'activities.courses_id', '=', 'courses.id')
+        ->join('categories', 'activities.categories_id', '=', 'categories.id')
+        ->where('activities.courses_id', $id)
+        ->get();
+        return $activities;
+
+    }
+
 }
