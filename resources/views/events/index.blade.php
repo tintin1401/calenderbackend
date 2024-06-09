@@ -58,7 +58,7 @@
                 @foreach ($events as $event)
                 <tr class="bg-white border-b hover:shadow-md">
                     <td class="p-4"> {{ $event->name }} </td>
-                    <td class="inline-block max-w-[15ch] py-4"> {{ $event->courses->name }} </td>
+                    <td class="p-4"> {{ $event->courses->name }} </td>
                     <td class="p-4"> {{ $event->labels->name }} </td>
                     <td class="p-4"> {{ $event->categories->name }} </td>
                     <td class="p-4"> {{ $event->date }} </td>

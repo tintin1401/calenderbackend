@@ -39,7 +39,7 @@ class EventsController extends Controller
        
         if($request->hasFile('file')){
             $image=$request->file('file');
-            $filename=$request->name.$image->getClientOriginalName();
+            $filename=$request->name.time().$image->getClientOriginalName();
             $image->move(public_path('imgs'),$filename);
 
         }else{
@@ -103,7 +103,7 @@ class EventsController extends Controller
                 }
                 
                 $image = $request->file('file');
-                $filename = $request->name . $image->getClientOriginalName();
+                $filename = $request->name .time(). $image->getClientOriginalName();
                 $image->move(public_path('imgs'), $filename);
                 $query->update([
                     'image' => $filename
@@ -133,7 +133,17 @@ class EventsController extends Controller
     {
         //
         $event = Activity::find($id);
-        $event->delete();
-        return redirect()->route('events.index')->with('success', 'Activity deleted successfully');
+        if ($event) {
+
+            $imagePath = public_path('imgs/' . $event->image);
+            if ($event->image !== 'default.png' && file_exists($imagePath)) {
+                unlink($imagePath);
+            }
+            $event->delete();
+    
+            return redirect()->route('events.index')->with('success', 'Activity deleted successfully');
+        } else {
+            return redirect()->route('events.index')->with('error', 'Activity not found');
+        }
     }
 }
