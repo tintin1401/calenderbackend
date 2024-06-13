@@ -31,7 +31,7 @@ class ActivityController extends Controller
         ->get();
         
         foreach ($activities as $activity) {
-            $activity->image = "http://localhost/calendar/calenderbackend/public/imgs/".$activity->image;
+            $activity->image = "http://localhost/calenderbackend/public/imgs/".$activity->image;
         }
 
         $activities->transform(function($activity) {
