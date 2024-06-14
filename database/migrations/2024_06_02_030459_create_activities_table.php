@@ -21,6 +21,7 @@ return new class extends Migration
             $table->foreignId('labels_id')->constrained();
             $table->foreignId('courses_id')->constrained();
             $table->foreignId('categories_id')->constrained();
+            $table->foreignId('status_activities_id')->constrained()->default(1);
             $table->timestamps();
         });
     }

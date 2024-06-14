@@ -64,7 +64,7 @@
             </div>
             <div class='mb-4'>
                 <label for="schedule" class="block mb-2 text-sm font-medium text-gray-900">Date</label>
-                <input type="date" id="schedule" name="schedule" class="border-2 border-blue-700 rounded-md w-full p-2" />
+                <input type="date" id="schedule" name="schedule" class="border-2 border-blue-700 rounded-md w-full p-2" value="{{ $date }}" min="{{ $date }}" />
             </div>
             <div>
                 <label for="time" class="block mb-2 text-sm font-medium text-gray-900">Time</label>

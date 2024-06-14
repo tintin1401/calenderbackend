@@ -17,7 +17,8 @@ class Activity extends Model
         'hour',
         'labels_id',
         'categories_id',
-        'courses_id'
+        'courses_id',
+        'status_activities_id',
     ];
 
     public function labels()

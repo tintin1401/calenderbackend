@@ -8,6 +8,7 @@ use App\Models\Label;
 use App\Models\Category;
 use App\Models\Course;
 use App\Models\Activity;
+use Illuminate\Support\Carbon;
 class EventsController extends Controller
 {
     /**
@@ -27,8 +28,11 @@ class EventsController extends Controller
         $categories=Category::all();
         $labels=Label::all();
         $courses=Course::all();
+        $now = Carbon::now();
+        list($date, $time) = explode(' ', $now);
+    
 
-        return view('events.create',compact('categories','labels','courses'));
+        return view('events.create',compact('categories','labels','courses','date'));
     }
 
     /**
@@ -55,7 +59,8 @@ class EventsController extends Controller
             'hour' => $request->time,
             'labels_id' => $request->label,
             'categories_id' => $request->category,
-            'courses_id' => $request->course
+            'courses_id' => $request->course,
+            "status_activities_id" => 1
          ]
         );
 
