@@ -122,4 +122,16 @@ class ActivityController extends Controller
 
     }
 
+
+    public function statusTask (){
+        $activities= Activity::select(
+            'activities.id',
+            'status_activities.status as status',
+        )
+        ->join('status_activities', 'activities.status_activities_id', '=', 'status_activities.id')
+        ->get();
+        return $activities;
+        
+    }
+
 }

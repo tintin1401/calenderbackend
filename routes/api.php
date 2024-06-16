@@ -40,3 +40,5 @@ Route::get('/activities/all', [ActivityController::class, 'index']);
 Route::get('/activities/day', [ActivityController::class, 'day']);
 Route::get('/activities/findcourses/{id}', [ActivityController::class, 'findCourses']);
 Route::get('/courses/name', [CourseController::class, 'name']);
+
+Route::get('/activities/statusTask', [ActivityController::class, 'statusTask']);
