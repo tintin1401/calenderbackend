@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('email');
             $table->string('password');
             $table->string('carnet');
+            $table->foreignId('courses_id')->constrained();
             $table->foreignId('user_type_id')->constrained();
             $table->timestamps();
         });
