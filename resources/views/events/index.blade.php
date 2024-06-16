@@ -35,13 +35,35 @@
             <a class="self-start lg:text-lg text-base text-center font-bold text-blue-700 hover:text-white border-2 rounded-lg border-blue-700 hover:bg-blue-700 px-4 py-1" href="{{ route('events.create') }}">New Activity</a>
         </div>
 
+        <div class="my-5">
+        <form class="flex flex-row items-center mb-8 space-y-0 gap-2" action="{{ route('events.search') }}" method="GET">
+            <div>
+                <label for="event" class="block mb-2 text-sm font-medium">Activity Name:</label>
+                <input id="event" type="text" class="bg-gray-10 border border-gray-300 text-sm rounded-lg focus:ring-blue-700 focus:border-blue-700 block w-full p-2.5" name="event" placeholder="Name" >
+            </div>
+            <div>
+                <label for="category" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Category:</label>
+                <select id="category" name="category" class="bg-gray-10 border border-gray-300 text-sm rounded-lg focus:ring-blue-700 focus:border-blue-700 block w-full p-2.5">
+                    <option value="0">All</option>
+                    @foreach ($categories as $category)
+                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+            
+            <div>
+                <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center mt-[1.9rem]">Search</button>
+            </div>
+        </form>
+    </div>
+
         @if ($message = Session::get('success'))
         <div class="pb-2 text-base success-message">
             <p>{{ $message }}</p>
         </div>
         @endif
 
-        <div class="overflow-x-auto stroke-orange-700">
+        <div class="overflow-x-auto">
         <table class="w-full text-center table-auto border-separate border-spacing-y-4 bg-[#EFF6FE]">
             <thead class="bg-blue-700 text-white">
                 <tr>
