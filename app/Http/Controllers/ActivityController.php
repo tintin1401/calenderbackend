@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Activity;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Log;
 
 class ActivityController extends Controller
 {
@@ -132,6 +133,29 @@ class ActivityController extends Controller
         ->get();
         return $activities;
         
+    }
+
+    public function completedTasksPerWeek() {
+        $now = now();
+        $startOfWeek = $now->copy()->startOfWeek();
+        $endOfWeek = $now->copy()->endOfWeek();
+
+        $tasksThisWeek = Activity::selectRaw('YEARWEEK(date) as week, name, COUNT(*) as count')
+            ->whereBetween('date', [$startOfWeek, $endOfWeek])
+            ->whereRaw('CONCAT(date, " ", hour) <= ?', [$now])
+            ->groupBy('week', 'name')
+            ->orderBy('week')
+            ->get();
+
+        $result = $tasksThisWeek->map(function ($task) {
+            return [
+                'week' => $task->week,
+                'name' => $task->name,
+                'count' => $task->count
+            ];
+        });
+
+        return response()->json($result);
     }
 
 }
