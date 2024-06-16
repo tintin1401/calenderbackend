@@ -22,7 +22,7 @@ Route::get('/', function () {
 
 Route::resource('events', EventsController::class);
 
-
+Route::get('/events/search/event', [EventsController::class, 'search'])->name('events.search');
 
 
 

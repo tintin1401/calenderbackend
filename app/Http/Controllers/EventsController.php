@@ -17,7 +17,8 @@ class EventsController extends Controller
     public function index()
     {
         $events = Activity::with(['labels', 'categories', 'courses'])->get();
-        return view('events.index', compact('events'));
+        $categories = Category::all();
+        return view('events.index', compact('events', 'categories'));
     }
 
     /**
@@ -150,5 +151,34 @@ class EventsController extends Controller
         } else {
             return redirect()->route('events.index')->with('error', 'Activity not found');
         }
+    }
+
+    public function search(Request $request)
+    {
+        $query = Activity::select(
+            'activities.id',
+            'activities.name',
+            'activities.date',
+            'activities.hour',
+            'labels.name as labels_name',
+            'courses.name as courses_name',
+            'categories.name as categories_name',
+        )
+        ->join('labels', 'activities.labels_id', '=', 'labels.id')
+        ->join('courses', 'activities.courses_id', '=', 'courses.id')
+        ->join('categories', 'activities.categories_id', '=', 'categories.id')
+        ->where('activities.status_activities_id', 1);
+
+        if ($request->category != 0) {
+            $query->where('activities.categories_id', $request->category);
+        }
+
+        if (!empty($request->event)) {
+            $query->where('activities.name', 'LIKE', '%' . $request->event . '%');
+        }
+
+        $events = $query->get();
+
+        return view('events.results', compact('events'));
     }
 }
