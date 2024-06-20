@@ -119,6 +119,16 @@ class ActivityController extends Controller
         ->join('categories', 'activities.categories_id', '=', 'categories.id')
         ->where('activities.courses_id', $id)
         ->get();
+        foreach ($activities as $activity) {
+            $activity->image = "http://localhost/calenderbackend/public/imgs/".$activity->image;
+        }
+
+        $activities->transform(function($activity) {
+            $activity->date = Carbon::parse($activity->date)->format('F j, Y');
+            $activity->hour = Carbon::parse($activity->hour)->format('h:i A'); 
+            return $activity;
+        });
+
         return $activities;
 
     }
