@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Activity;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Log;
 
 class ActivityController extends Controller
 {
@@ -120,6 +121,71 @@ class ActivityController extends Controller
         ->get();
         return $activities;
 
+    }
+
+
+    public function statusTask (){
+        $activities= Activity::select(
+            'activities.id',
+            'status_activities.status as status',
+        )
+        ->join('status_activities', 'activities.status_activities_id', '=', 'status_activities.id')
+        ->get();
+        return $activities;
+        
+    }
+
+    public function completedTasksPerDay()
+    {
+        $today = now()->format('Y-m-d');
+
+        $tasksToday = Activity::selectRaw('DATE(date) as day, name, activities.status_activities_id as activity_status, status_activities.status as status, COUNT(*) as count')
+            ->whereRaw('DATE(date) = ?', [$today])
+            ->where('activities.status_activities_id', 2)
+            ->join('status_activities', 'status_activities_id', '=', 'status_activities.id')
+            ->groupBy('day', 'name', 'activity_status', 'status')
+            ->orderBy('day')
+            ->get();
+
+        $result = $tasksToday->map(function ($task) {
+            return [
+                'day' => $task->day,
+                'name' => $task->name,
+                'activity_status' => $task->status,
+                'count' => $task->count
+            ];
+        });
+
+        return response()->json($result);
+    }
+
+    public function completedTasksPerWeek() {
+
+        $now = now();
+        $startOfWeek = $now->copy()->startOfWeek();
+        $endOfWeek = $now->copy()->endOfWeek();
+
+        $tasksThisWeek = Activity::selectRaw('YEARWEEK(date) as week, name, activities.status_activities_id as activity_status, status_activities.status as status, COUNT(*) as count')
+            ->whereBetween('date', [$startOfWeek, $endOfWeek])
+            ->whereRaw('CONCAT(date, " ", hour) <= ?', [$now])
+            ->where('activities.status_activities_id', 2)
+            ->join('status_activities', 'status_activities_id', '=', 'status_activities.id')
+            ->groupBy('week', 'name', 'activity_status', 'status')
+            ->orderBy('week')
+            ->get();
+
+
+        $result = $tasksThisWeek->map(function ($task) {
+            return [
+                'week' => $task->week,
+                'name' => $task->name,
+                'activity_status' => $task->status,
+                'count' => $task->count,
+                
+            ];
+        });
+
+        return response()->json($result);
     }
 
 }
