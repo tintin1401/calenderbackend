@@ -225,4 +225,41 @@ class ActivityController extends Controller
         return response()->json($result);
     }
 
+    public function search(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
+
+        $activities = Activity::select(
+            'activities.id',
+            'activities.name',
+            'activities.date',
+            'activities.hour',
+            'activities.description',
+            'activities.image',
+            'labels.name as labels_name',
+            'courses.name as courses_name',
+            'categories.name as categories_name',
+        )
+        ->join('labels', 'activities.labels_id', '=', 'labels.id')
+        ->join('courses', 'activities.courses_id', '=', 'courses.id')
+        ->join('categories', 'activities.categories_id', '=', 'categories.id')
+        ->where('activities.status_activities_id', 1)
+        ->where('activities.name', 'LIKE', '%' . $request->name . '%')
+        ->get();
+        
+        foreach ($activities as $activity) {
+            $activity->image = "http://localhost/calenderbackend/public/imgs/".$activity->image;
+        }
+
+        $activities->transform(function($activity) {
+            $activity->date = Carbon::parse($activity->date)->format('F j, Y');
+            $activity->hour = Carbon::parse($activity->hour)->format('h:i A'); 
+            return $activity;
+        });
+
+        return $activities;
+    }
+
 }
