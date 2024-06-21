@@ -11,7 +11,7 @@ use App\Http\Controllers\Status_activityController;
 use App\Http\Controllers\User_typeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ActivityController;
-use App\Http\Controllers\RegisteredUsersController;
+use App\Http\Controllers\RegisteredUserController;
 use App\Http\Controllers\LoginController;
 
 /*

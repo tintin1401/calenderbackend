@@ -30,7 +30,6 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request)
     {
-        // Valida la solicitud
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
@@ -38,7 +37,6 @@ class RegisteredUserController extends Controller
             'carnet' => 'nullable|string|max:255',
         ]);
 
-        // Crea el usuario
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
@@ -47,7 +45,6 @@ class RegisteredUserController extends Controller
             'user_type_id' => 3,
         ]);
 
-        // Retorna una respuesta JSON
         return response()->json(['message' => 'User registered successfully', 'user' => $user], 201);
     }
 
