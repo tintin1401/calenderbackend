@@ -11,6 +11,8 @@ use App\Http\Controllers\Status_activityController;
 use App\Http\Controllers\User_typeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ActivityController;
+use App\Http\Controllers\RegisteredUsersController;
+use App\Http\Controllers\LoginController;
 
 /*
 |--------------------------------------------------------------------------
@@ -48,3 +50,7 @@ Route::get('/activities/tasks/completed-per-day', [ActivityController::class, 'c
 
 Route::get('/activities/activity/details/{id}', [ActivityController::class, 'show']);
 Route::get('/activities/search', [ActivityController::class, 'search']);
+
+Route::post('/register', [RegisteredUserController::class, 'store']);
+Route::post('/login', [LoginController::class, 'login']);
+
