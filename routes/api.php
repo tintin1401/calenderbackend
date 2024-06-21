@@ -45,3 +45,5 @@ Route::get('/activities/statusTask', [ActivityController::class, 'statusTask']);
 
 Route::get('/activities/tasks/completed-per-week', [ActivityController::class, 'completedTasksPerWeek']);
 Route::get('/activities/tasks/completed-per-day', [ActivityController::class, 'completedTasksPerDay']);
+
+Route::get('/activities/activity/details/{id}', [ActivityController::class, 'show']);

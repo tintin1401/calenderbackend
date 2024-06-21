@@ -63,10 +63,37 @@ class ActivityController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($id)
     {
-        //
+        $activities= Activity::select(
+            'activities.id',
+            'activities.name',
+            'activities.description',
+            'activities.image',
+            'activities.date',
+            'activities.hour',
+            'labels.name as labels_name',
+            'courses.name as courses_name',
+            'categories.name as categories_name',
+            'status_activities.status as status_activities_name'
+        )
+        ->join('labels', 'activities.labels_id', '=', 'labels.id')
+        ->join('courses', 'activities.courses_id', '=', 'courses.id')
+        ->join('categories', 'activities.categories_id', '=', 'categories.id')
+        ->join('status_activities', 'activities.status_activities_id', '=', 'status_activities.id')
+        ->where('activities.id', $id)
+        ->get();
+        foreach ($activities as $activity) {
+            $activity->image = "http://localhost/calenderbackend/public/imgs/".$activity->image;
+        }
 
+        $activities->transform(function($activity) {
+            $activity->date = Carbon::parse($activity->date)->format('F j, Y');
+            $activity->hour = Carbon::parse($activity->hour)->format('h:i A'); 
+            return $activity;
+        });
+
+        return $activities;
     }
 
     /**
