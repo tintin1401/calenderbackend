@@ -352,5 +352,16 @@ class ActivityController extends Controller
         return $activities;
     }
 
+    public function percentagePendingTasks()
+    {
+        $totalTasks = Activity::count();
+        $pendingTasks = Activity::where('status_activities_id', 1)->count();
+
+        $percentagePending = $totalTasks > 0 ? ($pendingTasks / $totalTasks) * 100 : 0;
+
+        return response()->json(['percentage' => $percentagePending]);
+    }
+
+
 
 }
