@@ -225,6 +225,59 @@ class ActivityController extends Controller
         return response()->json($result);
     }
 
+    public function pendingTasksPerDay()
+    {
+        $today = now()->format('Y-m-d');
+
+        $tasksToday = Activity::selectRaw('DATE(date) as day, name, activities.status_activities_id as activity_status, status_activities.status as status, COUNT(*) as count')
+            ->whereRaw('DATE(date) = ?', [$today])
+            ->where('activities.status_activities_id', 1)
+            ->join('status_activities', 'status_activities_id', '=', 'status_activities.id')
+            ->groupBy('day', 'name', 'activity_status', 'status')
+            ->orderBy('day')
+            ->get();
+
+        $result = $tasksToday->map(function ($task) {
+            return [
+                'day' => $task->day,
+                'name' => $task->name,
+                'activity_status' => $task->status,
+                'count' => $task->count
+            ];
+        });
+
+        return response()->json($result);
+    }
+
+    public function pendingTasksPerWeek() {
+
+        $now = now();
+        $startOfWeek = $now->copy()->startOfWeek();
+        $endOfWeek = $now->copy()->endOfWeek();
+
+        $tasksThisWeek = Activity::selectRaw('YEARWEEK(date) as week, name, activities.status_activities_id as activity_status, status_activities.status as status, COUNT(*) as count')
+            ->whereBetween('date', [$startOfWeek, $endOfWeek])
+            ->whereRaw('CONCAT(date, " ", hour) > ?', [$now])
+            ->where('activities.status_activities_id', 1)
+            ->join('status_activities', 'status_activities_id', '=', 'status_activities.id')
+            ->groupBy('week', 'name', 'activity_status', 'status')
+            ->orderBy('week')
+            ->get();
+
+
+        $result = $tasksThisWeek->map(function ($task) {
+            return [
+                'week' => $task->week,
+                'name' => $task->name,
+                'activity_status' => $task->status,
+                'count' => $task->count,
+                
+            ];
+        });
+
+        return response()->json($result);
+    }
+
     public function search($id,Request $request)
     {
         $request->validate([

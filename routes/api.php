@@ -47,6 +47,8 @@ Route::get('/activities/statusTask', [ActivityController::class, 'statusTask']);
 
 Route::get('/activities/tasks/completed-per-week', [ActivityController::class, 'completedTasksPerWeek']);
 Route::get('/activities/tasks/completed-per-day', [ActivityController::class, 'completedTasksPerDay']);
+Route::get('/activities/tasks/pending-per-week', [ActivityController::class, 'pendingTasksPerWeek']);
+Route::get('/activities/tasks/pending-per-day', [ActivityController::class, 'pendingTasksPerDay']);
 
 Route::get('/activities/activity/details/{id}', [ActivityController::class, 'show']);
 Route::get('/activities/search/{id}', [ActivityController::class, 'search']);
@@ -55,4 +57,5 @@ Route::post('/register', [RegisteredUserController::class, 'store']);
 Route::post('/login', [LoginController::class, 'login']);
 
 Route::get('/activities/{id}', [ActivityController::class, 'user_Course']);
+
 
