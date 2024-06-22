@@ -225,7 +225,7 @@ class ActivityController extends Controller
         return response()->json($result);
     }
 
-    public function search(Request $request)
+    public function search($id,Request $request)
     {
         $request->validate([
             'name' => 'required|string|max:255',
@@ -245,6 +245,8 @@ class ActivityController extends Controller
         ->join('labels', 'activities.labels_id', '=', 'labels.id')
         ->join('courses', 'activities.courses_id', '=', 'courses.id')
         ->join('categories', 'activities.categories_id', '=', 'categories.id')
+        ->join('users_courses','courses.id', '=', 'users_courses.courses_id')
+        ->where('users_courses.users_id', $id)
         ->where('activities.status_activities_id', 1)
         ->where('activities.name', 'LIKE', '%' . $request->name . '%')
         ->get();
@@ -261,5 +263,41 @@ class ActivityController extends Controller
 
         return $activities;
     }
+
+
+    public function user_Course($id)
+    {
+        //
+        $activities= Activity::select(
+            'activities.id',
+            'activities.name',
+            'activities.description',
+            'activities.image',
+            'activities.date',
+            'activities.hour',
+            'labels.name as labels_name',
+            'courses.name as courses_name',
+            'categories.name as categories_name',
+        )
+        ->join('labels', 'activities.labels_id', '=', 'labels.id')
+        ->join('courses', 'activities.courses_id', '=', 'courses.id')
+        ->join('categories', 'activities.categories_id', '=', 'categories.id')
+        ->join('users_courses','courses.id', '=', 'users_courses.courses_id')
+        ->where('users_courses.users_id', $id)
+        ->get();
+        
+        foreach ($activities as $activity) {
+            $activity->image = "http://localhost/calenderbackend/public/imgs/".$activity->image;
+        }
+
+        $activities->transform(function($activity) {
+            $activity->date = Carbon::parse($activity->date)->format('F j, Y');
+            $activity->hour = Carbon::parse($activity->hour)->format('h:i A'); 
+            return $activity;
+        });
+
+        return $activities;
+    }
+
 
 }

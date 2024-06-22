@@ -49,8 +49,10 @@ Route::get('/activities/tasks/completed-per-week', [ActivityController::class, '
 Route::get('/activities/tasks/completed-per-day', [ActivityController::class, 'completedTasksPerDay']);
 
 Route::get('/activities/activity/details/{id}', [ActivityController::class, 'show']);
-Route::get('/activities/search', [ActivityController::class, 'search']);
+Route::get('/activities/search/{id}', [ActivityController::class, 'search']);
 
 Route::post('/register', [RegisteredUserController::class, 'store']);
 Route::post('/login', [LoginController::class, 'login']);
+
+Route::get('/activities/{id}', [ActivityController::class, 'user_Course']);
 
