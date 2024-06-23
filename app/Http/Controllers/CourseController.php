@@ -72,11 +72,14 @@ class CourseController extends Controller
     }
 
 
-    public function name (){
+    public function name ($id){
         $courses = Course::select(
             'courses.id',
             'courses.name',
-        )->get();
+        )
+        ->join('users_courses','courses.id', '=', 'users_courses.courses_id')
+        ->where('users_courses.users_id', $id)
+        ->get();
         return $courses;
     }
 
