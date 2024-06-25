@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\EventsController;
-
+use App\Http\Controllers\LoginController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,9 +20,13 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::resource('events', EventsController::class);
-
+Route::resource('events', EventsController::class)->middleware('auth');
 Route::get('/events/search/event', [EventsController::class, 'search'])->name('events.search');
+
+Route::resource('admin', LoginController::class);
+Route::get('/admin/', [LoginController::class, 'index'])->name('admin.login');
+Route::post('/admin/check', [LoginController::class, 'check'])->name('admin.check');
+Route::get('/admin/logout', [LoginController::class, 'logout'])->name('admin.logout');
 
 
 

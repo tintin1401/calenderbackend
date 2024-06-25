@@ -14,55 +14,48 @@ class LoginController extends Controller
      */
     public function index()
     {
-        //
+        return view('admin.login');
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+   
+
+    public function check(Request $request)
     {
-        //
+        if(!Auth::attempt($request->only('email', 'password')))
+        {
+            return redirect()->route('admin.login')->withErrors(['message' => 'Unauthorized']);
+        }
+
+        $user = User::where('email', $request['email'])->where('user_type_id', '3')->firstOrFail();
+        if(!$user){
+            return redirect()->route('admin.login')->withErrors(['message' => 'Unauthorized']);
+        }else{
+            session_start();
+            return redirect()->route('events.index');
+        }
+    
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
+    
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function logout( )
     {
-        //
+        Auth::logout();
+        session_start();
+        session_destroy();
+        return redirect()->route('admin.login');
+    }
+
+    public function show(){
+        Auth::logout();
+        session_start();
+        session_destroy();
+        return redirect()->route('admin.login');
     }
 
     public function login(Request $request)

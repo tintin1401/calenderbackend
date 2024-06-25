@@ -32,7 +32,12 @@
     <div class="mt-8">
         <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-8 space-y-4 lg:space-y-0">
             <h1 class="font-bold text-blue-700 lg:text-3xl text-2xl">Registered Activities</h1>
+            <div>
             <a class="self-start lg:text-lg text-base text-center font-bold text-blue-700 hover:text-white border-2 rounded-lg border-blue-700 hover:bg-blue-700 px-4 py-1" href="{{ route('events.create') }}">New Activity</a>
+            <a class="self-start lg:text-lg text-base text-center font-bold text-blue-700 hover:text-white border-2 rounded-lg border-blue-700 hover:bg-blue-700 px-4 py-1" href="{{ route('admin.logout') }}">Logout</a>
+            </div>
+            
+
         </div>
 
         <div class="my-5">
