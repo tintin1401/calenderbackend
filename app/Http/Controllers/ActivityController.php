@@ -356,10 +356,196 @@ class ActivityController extends Controller
     {
         $totalTasks = Activity::count();
         $pendingTasks = Activity::where('status_activities_id', 1)->count();
-
+    
         $percentagePending = $totalTasks > 0 ? ($pendingTasks / $totalTasks) * 100 : 0;
-
+    
+        $percentagePending = round($percentagePending, 2);
+    
         return response()->json(['percentage' => $percentagePending]);
+    }
+
+
+    public function user_task($id)
+    {
+        //
+        $activities= Activity::select(
+            'activities.id',
+            'activities.name',
+            'activities.description',
+            'activities.image',
+            'activities.date',
+            'activities.hour',
+            'labels.name as labels_name',
+            'courses.name as courses_name',
+            'categories.name as categories_name',
+        )
+        ->join('labels', 'activities.labels_id', '=', 'labels.id')
+        ->join('courses', 'activities.courses_id', '=', 'courses.id')
+        ->join('categories', 'activities.categories_id', '=', 'categories.id')
+        ->join('users_courses','courses.id', '=', 'users_courses.courses_id')
+        ->where('users_courses.users_id', $id)
+        ->where('activities.labels_id', 2)
+        ->get();
+        
+        foreach ($activities as $activity) {
+            $activity->image = "http://localhost/calenderbackend/public/imgs/".$activity->image;
+        }
+
+        $activities->transform(function($activity) {
+            $activity->date = Carbon::parse($activity->date)->format('F j, Y');
+            $activity->hour = Carbon::parse($activity->hour)->format('h:i A'); 
+            return $activity;
+        });
+
+        return $activities;
+    }
+
+    public function user_event($id)
+    {
+        //
+        $activities= Activity::select(
+            'activities.id',
+            'activities.name',
+            'activities.description',
+            'activities.image',
+            'activities.date',
+            'activities.hour',
+            'labels.name as labels_name',
+            'courses.name as courses_name',
+            'categories.name as categories_name',
+        )
+        ->join('labels', 'activities.labels_id', '=', 'labels.id')
+        ->join('courses', 'activities.courses_id', '=', 'courses.id')
+        ->join('categories', 'activities.categories_id', '=', 'categories.id')
+        ->join('users_courses','courses.id', '=', 'users_courses.courses_id')
+        ->where('users_courses.users_id', $id)
+        ->where('activities.labels_id', 1)
+        ->get();
+        
+        foreach ($activities as $activity) {
+            $activity->image = "http://localhost/calenderbackend/public/imgs/".$activity->image;
+        }
+
+        $activities->transform(function($activity) {
+            $activity->date = Carbon::parse($activity->date)->format('F j, Y');
+            $activity->hour = Carbon::parse($activity->hour)->format('h:i A'); 
+            return $activity;
+        });
+
+        return $activities;
+    }
+
+    public function user_announcement($id)
+    {
+        //
+        $activities= Activity::select(
+            'activities.id',
+            'activities.name',
+            'activities.description',
+            'activities.image',
+            'activities.date',
+            'activities.hour',
+            'labels.name as labels_name',
+            'courses.name as courses_name',
+            'categories.name as categories_name',
+        )
+        ->join('labels', 'activities.labels_id', '=', 'labels.id')
+        ->join('courses', 'activities.courses_id', '=', 'courses.id')
+        ->join('categories', 'activities.categories_id', '=', 'categories.id')
+        ->join('users_courses','courses.id', '=', 'users_courses.courses_id')
+        ->where('users_courses.users_id', $id)
+        ->where('activities.labels_id', 3)
+        ->get();
+        
+        foreach ($activities as $activity) {
+            $activity->image = "http://localhost/calenderbackend/public/imgs/".$activity->image;
+        }
+
+        $activities->transform(function($activity) {
+            $activity->date = Carbon::parse($activity->date)->format('F j, Y');
+            $activity->hour = Carbon::parse($activity->hour)->format('h:i A'); 
+            return $activity;
+        });
+
+        return $activities;
+    }
+
+
+
+    public function user_pending($id)
+    {
+        //
+        $activities= Activity::select(
+            'activities.id',
+            'activities.name',
+            'activities.description',
+            'activities.image',
+            'activities.date',
+            'activities.hour',
+            'labels.name as labels_name',
+            'courses.name as courses_name',
+            'categories.name as categories_name',
+            'status_activities.status as status',
+            
+        )
+        ->join('labels', 'activities.labels_id', '=', 'labels.id')
+        ->join('courses', 'activities.courses_id', '=', 'courses.id')
+        ->join('categories', 'activities.categories_id', '=', 'categories.id')
+        ->join('status_activities', 'activities.status_activities_id', '=', 'status_activities.id')
+        ->join('users_courses','courses.id', '=', 'users_courses.courses_id')
+        ->where('users_courses.users_id', $id)
+        ->where('activities.status_activities_id', 1)
+        ->get();
+        
+        foreach ($activities as $activity) {
+            $activity->image = "http://localhost/calenderbackend/public/imgs/".$activity->image;
+        }
+
+        $activities->transform(function($activity) {
+            $activity->date = Carbon::parse($activity->date)->format('F j, Y');
+            $activity->hour = Carbon::parse($activity->hour)->format('h:i A'); 
+            return $activity;
+        });
+
+        return $activities;
+    }
+
+    public function user_completed($id)
+    {
+        //
+        $activities= Activity::select(
+            'activities.id',
+            'activities.name',
+            'activities.description',
+            'activities.image',
+            'activities.date',
+            'activities.hour',
+            'labels.name as labels_name',
+            'courses.name as courses_name',
+            'categories.name as categories_name',
+            'status_activities.status as status',
+            
+        )
+        ->join('labels', 'activities.labels_id', '=', 'labels.id')
+        ->join('courses', 'activities.courses_id', '=', 'courses.id')
+        ->join('categories', 'activities.categories_id', '=', 'categories.id')
+        ->join('status_activities', 'activities.status_activities_id', '=', 'status_activities.id')
+        ->join('users_courses','courses.id', '=', 'users_courses.courses_id')
+        ->where('users_courses.users_id', $id)
+        ->where('activities.status_activities_id', 2)
+        ->get();
+        
+        foreach ($activities as $activity) {
+            $activity->image = "http://localhost/calenderbackend/public/imgs/".$activity->image;
+        }
+
+        $activities->transform(function($activity) {
+            $activity->date = Carbon::parse($activity->date)->format('F j, Y');
+            $activity->hour = Carbon::parse($activity->hour)->format('h:i A'); 
+            return $activity;
+        });
+
+        return $activities;
     }
 
 

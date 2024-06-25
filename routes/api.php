@@ -60,5 +60,13 @@ Route::post('/login', [LoginController::class, 'login']);
 Route::get('/activities/{id}', [ActivityController::class, 'user_Course']);
 
 
+Route::get('/tasks/{id}', [ActivityController::class, 'user_task']);
+Route::get('/events/{id}', [ActivityController::class, 'user_event']);
+Route::get('/announcements/{id}', [ActivityController::class, 'user_announcement']);
+
+Route::get('/pending/{id}', [ActivityController::class, 'user_pending']);
+Route::get('/completed/{id}', [ActivityController::class, 'user_completed']);
+
+
 
 
