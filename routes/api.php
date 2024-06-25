@@ -67,6 +67,8 @@ Route::get('/announcements/{id}', [ActivityController::class, 'user_announcement
 Route::get('/pending/{id}', [ActivityController::class, 'user_pending']);
 Route::get('/completed/{id}', [ActivityController::class, 'user_completed']);
 
+Route::post('/change-password', [UserController::class, 'changePassword']);
+
 
 
 
