@@ -69,6 +69,9 @@ Route::get('/completed/{id}', [ActivityController::class, 'user_completed']);
 
 Route::post('/change-password', [UserController::class, 'changePassword']);
 
+Route::post('/forgot/password', [UserController::class, 'sendResetLinkEmail'])->name('password.email');
+Route::get('/reset/password/{token}', [UserController::class, 'showResetForm'])->name('password.reset.form');
+Route::post('/reset/password', [UserController::class, 'reset'])->name('password.reset');
 
 
 

@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
 {
@@ -98,5 +100,60 @@ class UserController extends Controller
     
         return response()->json(['message' => 'Password successfully changed.']);
     }
+
+    public function sendResetLinkEmail(Request $request)
+    {
+        try {
+            $request->validate(['email' => 'required|email']);
+
+            $status = Password::sendResetLink(
+                $request->only('email')
+            );
+
+            if ($status === Password::RESET_LINK_SENT) {
+                return response()->json(['message' => __('passwords.sent')], 200);
+            } else {
+                return response()->json(['message' => __('passwords.user')], 400);
+            }
+        } catch (\Exception $e) {
+            Log::error('Error sending reset link: '.$e->getMessage());
+            return response()->json(['message' => 'An error occurred while sending the reset link'], 500);
+        }
+    }
+
+
+    public function reset(Request $request)
+    {
+        $request->validate([
+            'token' => 'required',
+            'email' => 'required|email',
+            'password' => 'required|min:8|confirmed',
+        ]);
+
+        Log::info('Request received for password reset', $request->all());
+
+        $status = Password::reset(
+            $request->only('email', 'password', 'password_confirmation', 'token'),
+            function ($user, $password) {
+                Log::info('Resetting password for user: ' . $user->email);
+                $user->password = Hash::make($password);
+                $user->save();
+                Log::info('Password reset successfully for user: ' . $user->email);
+            }
+        );
+
+        Log::info('Password reset status: ' . $status);
+
+        return $status === Password::PASSWORD_RESET
+            ? response()->json(['message' => __($status)], 200)
+            : response()->json(['message' => __($status)], 400);
+    }
+
+
+    public function showResetForm($token)
+    {
+        return view('auth.reset', ['token' => $token]);
+    }
+
 
 }
